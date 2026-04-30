@@ -6,11 +6,11 @@ export const Card: React.FC<{ children: React.ReactNode; className?: string }> =
   </div>
 );
 
-export const Button: React.FC<{
-  onClick?: () => void;
-  disabled?: boolean;
-  children: React.ReactNode;
-  variant?: 'primary' | 'secondary'
+export const Button: React.FC<{ 
+  onClick?: () => void; 
+  disabled?: boolean; 
+  children: React.ReactNode; 
+  variant?: 'primary' | 'secondary' 
 }> = ({ onClick, disabled, children, variant = 'primary' }) => {
   const baseStyle = "px-6 py-2 rounded-sm transition-all duration-300 ease-out font-medium text-sm tracking-wide";
   const variants = {
@@ -19,9 +19,9 @@ export const Button: React.FC<{
   };
 
   return (
-    <button
-      onClick={onClick}
-      disabled={disabled}
+    <button 
+      onClick={onClick} 
+      disabled={disabled} 
       className={`${baseStyle} ${variants[variant]}`}
     >
       {children}

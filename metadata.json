@@ -1,0 +1,5 @@
+{
+  "name": "NTW AI Studio",
+  "description": "A minimalist AI image studio for generation, editing, and prompt engineering using Gemini models.",
+  "requestFramePermissions": []
+}

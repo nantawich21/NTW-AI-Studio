@@ -43,6 +43,10 @@ const GenerateTab: React.FC = () => {
       {/* Controls */}
       <div className="lg:col-span-5 space-y-6">
         <section>
+          <h2 className="text-xl font-light mb-4 flex items-center gap-2">
+            <Sparkles className="w-5 h-5 text-muji-accent" />
+            Create
+          </h2>
           <Card>
             <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Prompt</label>
             <textarea
@@ -51,10 +55,12 @@ const GenerateTab: React.FC = () => {
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
             />
+            
             <div className="mt-4">
-              <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Aspect Ratio</label>
-              <SelectRatio value={aspectRatio} onChange={setAspectRatio} options={ratioOptions} />
+               <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Aspect Ratio</label>
+               <SelectRatio value={aspectRatio} onChange={setAspectRatio} options={ratioOptions} />
             </div>
+
             <div className="mt-6 flex justify-end">
               <Button onClick={handleGenerate} disabled={loading || !prompt}>
                 {loading ? 'Generating...' : 'Generate Image'}
@@ -64,20 +70,18 @@ const GenerateTab: React.FC = () => {
         </section>
 
         <section>
-          <Card>
-            <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Suggestions</label>
-            <div className="space-y-2">
-              {SUGGESTIONS.map((s, i) => (
-                <button
-                  key={i}
-                  onClick={() => setPrompt(s)}
-                  className="w-full text-left text-sm p-2 rounded-sm hover:bg-muji-light transition-colors text-gray-600"
-                >
-                  {s}
-                </button>
-              ))}
-            </div>
-          </Card>
+          <h3 className="text-sm font-medium text-gray-500 mb-3">Suggestions</h3>
+          <div className="flex flex-wrap gap-2">
+            {SUGGESTIONS.map((s, i) => (
+              <button
+                key={i}
+                onClick={() => setPrompt(s)}
+                className="text-xs bg-white px-3 py-2 rounded-sm border border-transparent hover:border-muji-accent/50 text-gray-600 transition-colors text-left"
+              >
+                {s}
+              </button>
+            ))}
+          </div>
         </section>
       </div>
 
@@ -91,9 +95,9 @@ const GenerateTab: React.FC = () => {
             <>
               <img src={result} alt="Generated" className="max-w-full max-h-full object-contain" />
               <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
-                <a
-                  href={result}
-                  download={`generated-${Date.now()}.png`}
+                <a 
+                  href={result} 
+                  download={`generated-${Date.now()}.png`} 
                   className="p-3 bg-white rounded-full hover:bg-gray-100 transition-colors"
                   title="Download"
                 >

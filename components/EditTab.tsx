@@ -62,33 +62,33 @@ const EditTab: React.FC = () => {
           <Card>
             {/* Upload Area */}
             <div className="mb-6">
-              <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Original Image</label>
-              {!previewUrl ? (
-                <div
-                  onClick={() => fileInputRef.current?.click()}
-                  className="border-2 border-dashed border-gray-200 rounded-sm p-8 text-center cursor-pointer hover:border-muji-accent transition-colors"
-                >
-                  <Upload className="w-8 h-8 text-gray-300 mx-auto mb-2" />
-                  <p className="text-sm text-gray-500">Click to upload photo</p>
-                </div>
-              ) : (
-                <div className="relative rounded-sm overflow-hidden bg-gray-100">
-                  <img src={previewUrl} alt="Original" className="w-full h-48 object-cover opacity-80" />
-                  <button
-                    onClick={handleClearFile}
-                    className="absolute top-2 right-2 bg-white/80 p-1 rounded-full hover:bg-white"
-                  >
-                    <X className="w-4 h-4 text-gray-600" />
-                  </button>
-                </div>
-              )}
-              <input
-                type="file"
-                accept="image/*"
-                className="hidden"
-                ref={fileInputRef}
-                onChange={handleFileChange}
-              />
+               <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Original Image</label>
+               {!previewUrl ? (
+                 <div 
+                    onClick={() => fileInputRef.current?.click()}
+                    className="border-2 border-dashed border-gray-200 rounded-sm p-8 text-center cursor-pointer hover:border-muji-accent transition-colors"
+                 >
+                   <Upload className="w-8 h-8 text-gray-300 mx-auto mb-2" />
+                   <p className="text-sm text-gray-500">Click to upload photo</p>
+                 </div>
+               ) : (
+                 <div className="relative rounded-sm overflow-hidden bg-gray-100">
+                    <img src={previewUrl} alt="Original" className="w-full h-48 object-cover opacity-80" />
+                    <button 
+                      onClick={handleClearFile}
+                      className="absolute top-2 right-2 bg-white/80 p-1 rounded-full hover:bg-white"
+                    >
+                      <X className="w-4 h-4 text-gray-600" />
+                    </button>
+                 </div>
+               )}
+               <input 
+                 type="file" 
+                 accept="image/*" 
+                 className="hidden" 
+                 ref={fileInputRef} 
+                 onChange={handleFileChange} 
+               />
             </div>
 
             <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Editing Instructions</label>
@@ -98,15 +98,15 @@ const EditTab: React.FC = () => {
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
             />
-
+            
             <div className="mt-4">
-              <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Output Aspect Ratio</label>
-              <SelectRatio value={aspectRatio} onChange={setAspectRatio} options={ratioOptions} />
+               <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Output Aspect Ratio</label>
+               <SelectRatio value={aspectRatio} onChange={setAspectRatio} options={ratioOptions} />
             </div>
 
             <div className="mt-6 flex justify-end">
               <Button onClick={handleEdit} disabled={loading || !prompt || !selectedFile}>
-                {loading ? 'Editing...' : 'Apply Edit'}
+                {loading ? 'Editing...' : 'Edit Image'}
               </Button>
             </div>
           </Card>
@@ -120,12 +120,12 @@ const EditTab: React.FC = () => {
           {loading ? (
             <Spinner />
           ) : result ? (
-            <>
+             <>
               <img src={result} alt="Edited" className="max-w-full max-h-full object-contain" />
               <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
-                <a
-                  href={result}
-                  download={`edited-${Date.now()}.png`}
+                <a 
+                  href={result} 
+                  download={`edited-${Date.now()}.png`} 
                   className="p-3 bg-white rounded-full hover:bg-gray-100 transition-colors"
                   title="Download"
                 >
@@ -139,7 +139,7 @@ const EditTab: React.FC = () => {
               <p className="font-light">Edited image will appear here</p>
             </div>
           )}
-          {error && <div className="absolute bottom-4 text-red-500 bg-white px-4 py-2 rounded shadow-sm text-sm">{error}</div>}
+           {error && <div className="absolute bottom-4 text-red-500 bg-white px-4 py-2 rounded shadow-sm text-sm">{error}</div>}
         </div>
       </div>
     </div>

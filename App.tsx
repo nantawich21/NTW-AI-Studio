@@ -24,7 +24,7 @@ const App: React.FC = () => {
               <div className="w-8 h-8 bg-muji-accent rounded-sm flex items-center justify-center text-white font-bold">N</div>
               <h1 className="text-lg font-semibold tracking-tight text-muji-wood">NTW AI Studio</h1>
             </div>
-
+            
             <nav className="flex space-x-1 bg-muji-bg p-1 rounded-md overflow-x-auto max-w-full">
               {tabs.map((tab) => {
                 const Icon = tab.icon;
@@ -34,15 +34,13 @@ const App: React.FC = () => {
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
                     className={`
-                      flex items-center gap-2 px-4 py-2 text-sm font-medium
-                      rounded-sm transition-all duration-200 whitespace-nowrap
-                      ${isActive
-                        ? 'bg-white text-muji-accent shadow-sm'
-                        : 'text-gray-500 hover:text-gray-700'
-                      }
+                      flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-sm transition-all duration-200 whitespace-nowrap
+                      ${isActive 
+                        ? 'bg-white text-muji-accent shadow-sm' 
+                        : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100'}
                     `}
                   >
-                    <Icon size={16} />
+                    <Icon className="w-4 h-4" />
                     {tab.label}
                   </button>
                 );
@@ -52,18 +50,24 @@ const App: React.FC = () => {
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="mb-6">
-          <p className="text-gray-400 mt-2 font-light">
-            {activeTab === AppTab.GENERATE && "Transform your text descriptions into stunning visuals."}
-            {activeTab === AppTab.EDIT && "Refine and alter your images with natural language instructions."}
-            {activeTab === AppTab.PROMPT && "Reverse engineer prompts from any image to understand how it was made."}
-          </p>
-        </div>
+      {/* Main Content */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="animate-fade-in-up">
+           <div className="mb-8">
+             <h2 className="text-3xl font-light text-muji-text">
+               {tabs.find(t => t.id === activeTab)?.label}
+             </h2>
+             <p className="text-gray-400 mt-2 font-light">
+               {activeTab === AppTab.GENERATE && "Transform your text descriptions into stunning visuals."}
+               {activeTab === AppTab.EDIT && "Refine and alter your images with natural language instructions."}
+               {activeTab === AppTab.PROMPT && "Reverse engineer prompts from any image to understand how it was made."}
+             </p>
+           </div>
 
-        {activeTab === AppTab.GENERATE && <GenerateTab />}
-        {activeTab === AppTab.EDIT && <EditTab />}
-        {activeTab === AppTab.PROMPT && <PromptEngineerTab />}
+           {activeTab === AppTab.GENERATE && <GenerateTab />}
+           {activeTab === AppTab.EDIT && <EditTab />}
+           {activeTab === AppTab.PROMPT && <PromptEngineerTab />}
+        </div>
       </main>
 
       {/* Footer */}

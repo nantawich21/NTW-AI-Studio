@@ -3,7 +3,7 @@ import { AspectRatio } from "../types";
 
 const apiKey = process.env.API_KEY || '';
 // Note: In a real environment, ensure API_KEY is set.
-// We initialize lazily inside functions to handle key rotation if needed,
+// We initialize lazily inside functions to handle key rotation if needed, 
 // though the prompt says strictly use process.env.API_KEY.
 
 const ai = new GoogleGenAI({ apiKey });
@@ -26,16 +26,18 @@ export const fileToGenerativePart = async (file: File): Promise<string> => {
 };
 
 export const generateImageWithAI = async (
-  prompt: string,
+  prompt: string, 
   aspectRatio: AspectRatio
 ): Promise<string> => {
   try {
     const response = await ai.models.generateContent({
-      model: 'gemini-2.0-flash-preview-image-generation',
-      contents: prompt,
+      model: 'gemini-2.5-flash-image',
+      contents: {
+        parts: [{ text: prompt }],
+      },
       config: {
         imageConfig: {
-          aspectRatio: aspectRatio
+          aspectRatio: aspectRatio,
         },
       },
     });
@@ -75,9 +77,9 @@ export const editImageWithAI = async (
         ],
       },
       config: {
-        imageConfig: {
-          aspectRatio: aspectRatio
-        }
+         imageConfig: {
+            aspectRatio: aspectRatio
+         }
       }
     });
 
@@ -99,7 +101,7 @@ export const generatePromptFromImage = async (
 ): Promise<string> => {
   try {
     const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash',
+      model: 'gemini-3-flash-preview',
       contents: {
         parts: [
           {
@@ -109,16 +111,15 @@ export const generatePromptFromImage = async (
             },
           },
           {
-            text: 'Analyze this image and generate a detailed, creative prompt that could be used to recreate it with an AI image generation model. Include details about style, lighting, composition, colors, and subject matter. Format it as a single descriptive paragraph.',
+            text: "Analyze this image and write a detailed, high-quality prompt that could be used to recreate this exact image style and content using an AI image generator. Focus on lighting, composition, texture, and mood. Respond ONLY with the prompt text.",
           },
         ],
       },
     });
-    const text = response.candidates?.[0]?.content?.parts?.[0]?.text;
-    if (!text) throw new Error('No prompt generated.');
-    return text;
+
+    return response.text || "Could not generate description.";
   } catch (error) {
-    console.error('Error generating prompt from image:', error);
+    console.error("Error analyzing image:", error);
     throw error;
   }
 };
