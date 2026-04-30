@@ -1,7 +1,7 @@
 import React from 'react';
 
 export const Card: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className = '' }) => (
-  <div className={`bg-white rounded-sm shadow-sm p-6 ${className}`}>
+  <div className={`bg-apple-canvas rounded-apple p-6 sm:p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-apple-hover ${className}`}>
     {children}
   </div>
 );
@@ -12,10 +12,10 @@ export const Button: React.FC<{
   children: React.ReactNode; 
   variant?: 'primary' | 'secondary' 
 }> = ({ onClick, disabled, children, variant = 'primary' }) => {
-  const baseStyle = "px-6 py-2 rounded-sm transition-all duration-300 ease-out font-medium text-sm tracking-wide";
+  const baseStyle = "px-6 py-2.5 rounded-full transition-all duration-300 ease-out font-medium text-[15px] tracking-tight inline-flex items-center justify-center gap-2";
   const variants = {
-    primary: "bg-muji-accent text-white hover:bg-opacity-90 disabled:bg-gray-300",
-    secondary: "bg-muji-light text-muji-text hover:bg-gray-200 disabled:bg-gray-100"
+    primary: "bg-apple-blue text-white hover:bg-apple-blueHover disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed",
+    secondary: "bg-gray-200 text-apple-headline hover:bg-gray-300 disabled:bg-gray-100 disabled:text-gray-400"
   };
 
   return (
@@ -34,15 +34,15 @@ export const SelectRatio: React.FC<{
   onChange: (val: any) => void;
   options: { label: string; value: string }[];
 }> = ({ value, onChange, options }) => (
-  <div className="flex gap-2 mt-2">
+  <div className="flex bg-gray-200/60 p-1 rounded-xl w-max mt-2">
     {options.map((opt) => (
       <button
         key={opt.value}
         onClick={() => onChange(opt.value)}
-        className={`px-4 py-2 text-xs rounded-sm border ${
+        className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
           value === opt.value
-            ? 'border-muji-accent text-muji-accent bg-muji-accent/10'
-            : 'border-gray-200 text-gray-500 hover:border-gray-300'
+            ? 'bg-white text-apple-headline shadow-sm'
+            : 'text-apple-text hover:text-apple-headline'
         }`}
       >
         {opt.label}
@@ -53,6 +53,6 @@ export const SelectRatio: React.FC<{
 
 export const Spinner: React.FC = () => (
   <div className="flex justify-center items-center p-4">
-    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-muji-accent"></div>
+    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-apple-blue"></div>
   </div>
 );

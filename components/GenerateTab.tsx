@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { AspectRatio } from '../types';
 import { generateImageWithAI } from '../services/geminiService';
 import { Card, Button, SelectRatio, Spinner } from './ui/LayoutComponents';
-import { Sparkles, Download, RefreshCw } from 'lucide-react';
+import { Sparkles, Download, Wand2 } from 'lucide-react';
 
 const SUGGESTIONS = [
   "A minimalist living room with warm sunlight, muji style",
@@ -39,29 +39,30 @@ const GenerateTab: React.FC = () => {
   ];
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 animate-fade-in">
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 animate-fade-in text-left">
       {/* Controls */}
       <div className="lg:col-span-5 space-y-6">
         <section>
-          <h2 className="text-xl font-light mb-4 flex items-center gap-2">
-            <Sparkles className="w-5 h-5 text-muji-accent" />
-            Create
-          </h2>
           <Card>
-            <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Prompt</label>
+            <h3 className="text-lg font-semibold tracking-tight text-apple-headline mb-6 flex items-center gap-2">
+              <Sparkles className="w-5 h-5 text-apple-blue" />
+              Creative Details
+            </h3>
+            
+            <label className="block text-sm font-semibold text-apple-headline mb-2">Prompt</label>
             <textarea
-              className="w-full h-32 p-3 bg-muji-bg rounded-sm border-none focus:ring-1 focus:ring-muji-accent resize-none text-sm placeholder-gray-400"
+              className="w-full h-32 p-4 bg-white rounded-2xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-apple-blue/50 focus:border-apple-blue resize-none text-[15px] placeholder-gray-400 transition-all shadow-sm"
               placeholder="Describe what you want to see..."
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
             />
             
-            <div className="mt-4">
-               <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Aspect Ratio</label>
+            <div className="mt-6">
+               <label className="block text-sm font-semibold text-apple-headline mb-2">Aspect Ratio</label>
                <SelectRatio value={aspectRatio} onChange={setAspectRatio} options={ratioOptions} />
             </div>
 
-            <div className="mt-6 flex justify-end">
+            <div className="mt-8">
               <Button onClick={handleGenerate} disabled={loading || !prompt}>
                 {loading ? 'Generating...' : 'Generate Image'}
               </Button>
@@ -69,14 +70,14 @@ const GenerateTab: React.FC = () => {
           </Card>
         </section>
 
-        <section>
-          <h3 className="text-sm font-medium text-gray-500 mb-3">Suggestions</h3>
-          <div className="flex flex-wrap gap-2">
+        <section className="px-2">
+          <h3 className="text-sm font-semibold text-apple-text mb-3">Suggestions</h3>
+          <div className="flex overflow-x-auto no-scrollbar gap-2 pb-2">
             {SUGGESTIONS.map((s, i) => (
               <button
                 key={i}
                 onClick={() => setPrompt(s)}
-                className="text-xs bg-white px-3 py-2 rounded-sm border border-transparent hover:border-muji-accent/50 text-gray-600 transition-colors text-left"
+                className="whitespace-nowrap text-sm bg-[#F5F5F7] px-4 py-2.5 rounded-full text-apple-headline hover:bg-gray-200 transition-colors"
               >
                 {s}
               </button>
@@ -87,32 +88,34 @@ const GenerateTab: React.FC = () => {
 
       {/* Result */}
       <div className="lg:col-span-7">
-        <h2 className="text-xl font-light mb-4">Result</h2>
-        <div className="w-full h-[600px] bg-white rounded-sm shadow-sm flex items-center justify-center overflow-hidden relative group">
-          {loading ? (
-            <Spinner />
-          ) : result ? (
-            <>
-              <img src={result} alt="Generated" className="max-w-full max-h-full object-contain" />
-              <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
-                <a 
-                  href={result} 
-                  download={`generated-${Date.now()}.png`} 
-                  className="p-3 bg-white rounded-full hover:bg-gray-100 transition-colors"
-                  title="Download"
-                >
-                  <Download className="w-5 h-5 text-gray-800" />
-                </a>
+        <Card className="h-full min-h-[600px] flex flex-col p-4 sm:p-4">
+          <div className="w-full h-full bg-white rounded-2xl border border-gray-100 flex items-center justify-center overflow-hidden relative group min-h-[500px]">
+            {loading ? (
+              <Spinner />
+            ) : result ? (
+              <>
+                <img src={result} alt="Generated" className="max-w-full max-h-full object-contain" />
+                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4 filter backdrop-blur-sm">
+                  <a 
+                    href={result} 
+                    download={`generated-${Date.now()}.png`} 
+                    className="p-4 bg-white/90 rounded-full hover:bg-white hover:scale-105 transition-all shadow-lg"
+                    title="Download"
+                  >
+                    <Download className="w-6 h-6 text-apple-headline" />
+                  </a>
+                </div>
+              </>
+            ) : (
+              <div className="text-center text-apple-text">
+                <Wand2 className="w-12 h-12 mx-auto mb-4 text-gray-300" />
+                <p className="font-medium text-lg">Your masterpiece will appear here.</p>
+                <p className="text-sm mt-1">Start by typing a prompt.</p>
               </div>
-            </>
-          ) : (
-            <div className="text-center text-gray-300">
-              <Sparkles className="w-12 h-12 mx-auto mb-2 opacity-20" />
-              <p className="font-light">Your masterpiece will appear here</p>
-            </div>
-          )}
-          {error && <div className="absolute bottom-4 text-red-500 bg-white px-4 py-2 rounded shadow-sm text-sm">{error}</div>}
-        </div>
+            )}
+            {error && <div className="absolute bottom-4 text-white bg-red-500/90 backdrop-blur-md px-6 py-3 rounded-full shadow-lg text-sm font-medium">{error}</div>}
+          </div>
+        </Card>
       </div>
     </div>
   );

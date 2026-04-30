@@ -52,85 +52,86 @@ const PromptEngineerTab: React.FC = () => {
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 text-left">
       {/* Input */}
       <div className="lg:col-span-5 space-y-6">
-        <section>
-          <h2 className="text-xl font-light mb-4 flex items-center gap-2">
-            <FileSearch className="w-5 h-5 text-muji-accent" />
-            Analyze
-          </h2>
-          <Card>
-            <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Reference Image</label>
-             {!previewUrl ? (
-                 <div 
-                    onClick={() => fileInputRef.current?.click()}
-                    className="border-2 border-dashed border-gray-200 rounded-sm p-12 text-center cursor-pointer hover:border-muji-accent transition-colors flex flex-col items-center justify-center min-h-[200px]"
-                 >
-                   <Upload className="w-10 h-10 text-gray-300 mb-4" />
-                   <p className="text-sm text-gray-500 font-medium">Upload image to reverse engineer</p>
-                   <p className="text-xs text-gray-400 mt-1">Supports JPG, PNG</p>
-                 </div>
-               ) : (
-                 <div className="relative rounded-sm overflow-hidden bg-gray-100">
-                    <img src={previewUrl} alt="Original" className="w-full h-auto object-cover max-h-[300px]" />
-                    <button 
-                      onClick={handleClearFile}
-                      className="absolute top-2 right-2 bg-white/80 p-1 rounded-full hover:bg-white"
-                    >
-                      <X className="w-4 h-4 text-gray-600" />
-                    </button>
-                 </div>
-               )}
-               <input 
-                 type="file" 
-                 accept="image/*" 
-                 className="hidden" 
-                 ref={fileInputRef} 
-                 onChange={handleFileChange} 
-               />
+        <Card>
+          <h3 className="text-lg font-semibold tracking-tight text-apple-headline mb-6 flex items-center gap-2">
+            <FileSearch className="w-5 h-5 text-apple-blue" />
+            Analysis
+          </h3>
+          <label className="block text-sm font-semibold text-apple-headline mb-2">Reference Image</label>
+           {!previewUrl ? (
+               <div 
+                  onClick={() => fileInputRef.current?.click()}
+                  className="border border-dashed border-gray-300 bg-[#F5F5F7] rounded-2xl p-12 text-center cursor-pointer hover:border-apple-blue hover:bg-apple-blue/5 transition-all flex flex-col items-center justify-center min-h-[200px]"
+               >
+                 <Upload className="w-10 h-10 text-apple-blue mb-4" />
+                 <p className="text-sm text-apple-headline font-semibold">Upload image to reverse engineer</p>
+                 <p className="text-sm text-apple-text mt-1">Supports JPG, PNG</p>
+               </div>
+             ) : (
+               <div className="relative rounded-2xl overflow-hidden bg-gray-100 border border-gray-200">
+                  <img src={previewUrl} alt="Original" className="w-full h-auto object-cover max-h-[300px]" />
+                  <button 
+                    onClick={handleClearFile}
+                    className="absolute top-3 right-3 bg-white/90 p-1.5 rounded-full hover:bg-white shadow-sm transition-all"
+                  >
+                    <X className="w-4 h-4 text-apple-headline" />
+                  </button>
+               </div>
+             )}
+             <input 
+               type="file" 
+               accept="image/*" 
+               className="hidden" 
+               ref={fileInputRef} 
+               onChange={handleFileChange} 
+             />
 
-            <div className="mt-6 flex justify-end">
-              <Button onClick={handleAnalyze} disabled={loading || !selectedFile}>
-                {loading ? 'Analyzing...' : 'Generate Prompt'}
-              </Button>
-            </div>
-            {error && <div className="mt-4 text-red-500 text-sm text-right">{error}</div>}
-          </Card>
-        </section>
+          <div className="mt-8">
+            <Button onClick={handleAnalyze} disabled={loading || !selectedFile}>
+              {loading ? 'Analyzing...' : 'Generate Prompt'}
+            </Button>
+          </div>
+          {error && <div className="mt-4 text-red-500 text-sm font-medium">{error}</div>}
+        </Card>
       </div>
 
       {/* Output */}
       <div className="lg:col-span-7">
-        <h2 className="text-xl font-light mb-4">Suggested Prompt</h2>
-        <Card className="h-full min-h-[300px] flex flex-col relative">
-          {loading ? (
-             <div className="flex-1 flex flex-col justify-center items-center">
-                <Spinner />
-                <p className="text-gray-400 text-sm mt-4 animate-pulse">Reading pixels...</p>
-             </div>
-          ) : generatedPrompt ? (
-            <div className="flex-1 flex flex-col">
-              <p className="text-gray-600 leading-relaxed whitespace-pre-wrap font-mono text-sm">
-                {generatedPrompt}
-              </p>
-              <div className="mt-auto pt-6 flex justify-end">
-                <button 
-                  onClick={handleCopy}
-                  className="flex items-center gap-2 text-muji-accent hover:text-muji-wood transition-colors text-sm font-medium"
-                >
-                  {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-                  {copied ? 'Copied' : 'Copy Prompt'}
-                </button>
-              </div>
-            </div>
-          ) : (
-            <div className="flex-1 flex justify-center items-center text-center text-gray-300">
-               <div>
-                <p className="font-light">Upload an image to reveal its prompt recipe.</p>
+        <Card className="h-full min-h-[300px] flex flex-col relative p-6 sm:p-8">
+          <h3 className="text-lg font-semibold tracking-tight text-apple-headline mb-6">Suggested Prompt</h3>
+          <div className="flex-1 w-full bg-white rounded-2xl border border-gray-100 flex items-center justify-center overflow-hidden p-6 relative">
+            {loading ? (
+               <div className="flex flex-col justify-center items-center h-full">
+                  <Spinner />
+                  <p className="text-apple-text text-sm mt-4 animate-pulse font-medium">Reading pixels...</p>
                </div>
-            </div>
-          )}
+            ) : generatedPrompt ? (
+              <div className="flex-1 flex flex-col h-full items-start">
+                <p className="text-apple-headline leading-relaxed whitespace-pre-wrap text-[15px]">
+                  {generatedPrompt}
+                </p>
+                <div className="mt-auto pt-8 w-full flex justify-end">
+                  <button 
+                    onClick={handleCopy}
+                    className="flex items-center gap-2 text-apple-blue hover:text-apple-blueHover transition-colors text-[15px] font-semibold"
+                  >
+                    {copied ? <Check className="w-5 h-5" /> : <Copy className="w-5 h-5" />}
+                    {copied ? 'Copied' : 'Copy Prompt'}
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="w-full h-full flex justify-center items-center text-center text-apple-text">
+                 <div>
+                  <FileSearch className="w-12 h-12 mx-auto mb-4 text-gray-300" />
+                  <p className="font-medium text-lg">Upload an image to reveal its prompt recipe.</p>
+                 </div>
+              </div>
+            )}
+          </div>
         </Card>
       </div>
     </div>
